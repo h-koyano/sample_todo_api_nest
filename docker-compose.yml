@@ -1,0 +1,37 @@
+version: '3'
+services:
+  api:
+    container_name: sample_todo_nest_api
+    build:
+      context: .
+      dockerfile: ./Dockerfile
+    volumes:
+      - .:/app
+      - sample_todo_api_nest:/app/node_modules
+    ports:
+      - 3005:3005
+  db:
+    platform: linux/amd64
+    image: mysql:8.0
+    container_name: sample_todo_nest_db
+    ports:
+      - 3306:3306
+    environment:
+      MYSQL_ROOT_PASSWORD: rootsecret
+      MYSQL_DATABASE: sample
+      MYSQL_USER: app
+      MYSQL_PASSWORD: secret
+      TZ: 'Asia/Tokyo'
+    volumes:
+      - sample_todo_nest_db_data:/var/lib/mysql
+      # - ./initdb.d:/docker-entrypoint-initdb.d
+      # - /tmp/mysql.sock:/var/run/mysqld/mysqld.sock
+    networks:
+      - backend
+
+volumes:
+  sample_todo_api_nest:
+  sample_todo_nest_db_data:
+
+networks:
+  backend:
