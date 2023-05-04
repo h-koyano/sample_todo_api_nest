@@ -24,14 +24,9 @@ services:
       TZ: 'Asia/Tokyo'
     volumes:
       - sample_todo_nest_db_data:/var/lib/mysql
-      # - ./initdb.d:/docker-entrypoint-initdb.d
+      - ./db/init_scripts:/docker-entrypoint-initdb.d
       # - /tmp/mysql.sock:/var/run/mysqld/mysqld.sock
-    networks:
-      - backend
 
 volumes:
   sample_todo_api_nest:
   sample_todo_nest_db_data:
-
-networks:
-  backend:
